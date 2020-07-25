@@ -69,7 +69,7 @@ func (api *sesameAPI) GetStatus(ctx context.Context, deviceID string) (*SesameSt
 		return nil, fmt.Errorf("Invalid deviceID: %s", deviceID)
 	}
 
-	ep := fmt.Sprintf("sesames/%s", deviceID)
+	ep := fmt.Sprintf("sesame/%s", deviceID)
 	if err := api.cli.Get(ctx, ep, nil, &ss); err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (api *sesameAPI) Control(ctx context.Context, deviceID string, command stri
 	p := url.Values{}
 	p.Set("command", command)
 
-	ep := fmt.Sprintf("sesames/%s", deviceID)
+	ep := fmt.Sprintf("sesame/%s", deviceID)
 	if err := api.cli.Post(ctx, ep, nil, &v); err != nil {
 		return nil, err
 	}
