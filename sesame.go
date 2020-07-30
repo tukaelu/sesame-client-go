@@ -20,6 +20,11 @@ type SesameStatus struct {
 	Responsive bool  `json:"responsive"`
 }
 
+// ControlCommand represents command data.
+type ControlCommand struct {
+	Command string `json:"command"`
+}
+
 // Control represents control task id.
 type Control struct {
 	TaskID string `json:"task_id"`
@@ -84,11 +89,10 @@ func (api *sesameAPI) Control(ctx context.Context, deviceID string, command stri
 		return nil, fmt.Errorf("Invalid deviceID: %s", deviceID)
 	}
 
-	p := url.Values{}
-	p.Set("command", command)
+	cmd := ControlCommand{Command: command}
 
 	ep := fmt.Sprintf("sesame/%s", deviceID)
-	if err := api.cli.Post(ctx, ep, nil, &v); err != nil {
+	if err := api.cli.Post(ctx, ep, cmd, &v); err != nil {
 		return nil, err
 	}
 	return &v, nil

@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"strings"
 	"time"
+	"unsafe"
 )
 
 const (
@@ -69,15 +70,20 @@ func (cli *Client) Get(ctx context.Context, path string, params url.Values, p in
 }
 
 // Post is an implementation of the HTTP POST method.
-func (cli *Client) Post(ctx context.Context, path string, params url.Values, p interface{}) error {
+func (cli *Client) Post(ctx context.Context, path string, params interface{}, p interface{}) error {
 	endpoint := fmt.Sprintf("%s/%s", cli.BaseURL, path)
-	payload := strings.NewReader(params.Encode())
 
-	req, err := http.NewRequest(http.MethodGet, endpoint, payload)
+	j, err := json.Marshal(params)
 	if err != nil {
 		return err
 	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	payload := strings.NewReader(*(*string)(unsafe.Pointer(&j)))
+
+	req, err := http.NewRequest(http.MethodPost, endpoint, payload)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json")
 
 	res, err := cli.doRequest(ctx, req)
 	if err != nil {
