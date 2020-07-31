@@ -26,34 +26,34 @@ func main() {
     cli := opensesame.NewSesameAPI("YOUR_API_KEY")
 
     // Get Sesame list
-	devices, err := cli.GetList(ctx)
-	if err != nil {
+    devices, err := cli.GetList(ctx)
+    if err != nil {
         log.Fatal(err)
-		return
-	}
+        return
+    }
 
     // Get Sesame status
     stat, err := api.GetStatus(ctx, "DEVICE_ID")
-	if err != nil {
+    if err != nil {
         log.Fatal(err)
-		return
-	}
+        return
+    }
     fmt.Printf("Battery: %d%", stat.Battery) // Battery: 80%
 
     // Control Sesame
     ctrl, err := api.Control(ctx, "DEVICE_ID", "lock")
-	if err != nil {
+    if err != nil {
         log.Fatal(err)
-		return
-	}
+        return
+    }
     fmt.Printf("Task ID: %s", ctrl.TaskID) // Task ID: 01234567-890a-bcde-f012-34567890abcd
 
     // Query Execution Result
     result, err := api.GetExecutionResult(ctx, ctrl.TaskID)
-	if err != nil {
+    if err != nil {
         log.Fatal(err)
-		return
-	}
+        return
+    }
     fmt.Printf("Status: %s", ctrl.Status) // Status: processing
 }
 
