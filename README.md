@@ -1,5 +1,8 @@
 # Sesame API client for Go
 
+![ci](https://github.com/tukaelu/sesame-client-go/workflows/ci/badge.svg?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tukaelu/sesame-client-go)](https://goreportcard.com/report/github.com/tukaelu/sesame-client-go)
+
 sesame-client-go is the unofficial Sesame API client for Go programming language.
 
 This client supports the version 3 API.
