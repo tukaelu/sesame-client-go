@@ -23,7 +23,7 @@ Example
 
 func main() {
     ctx := context.Background()
-    cli := opensesame.NewSesameAPI("YOUR_API_KEY")
+    cli := sesame.NewAPIClient("YOUR_API_KEY")
 
     // Get Sesame list
     devices, err := cli.GetList(ctx)

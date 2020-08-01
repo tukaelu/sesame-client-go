@@ -1,4 +1,4 @@
-package opensesame
+package sesame
 
 import (
 	"context"

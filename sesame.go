@@ -1,4 +1,4 @@
-package opensesame
+package sesame
 
 import (
 	"context"
@@ -45,19 +45,19 @@ type SesameAPI interface {
 	GetExecutionResult(ctx context.Context, taskID string) (*ExecutionResult, error)
 }
 
-type sesameAPI struct {
+type apiClient struct {
 	cli *Client
 }
 
-// NewSesameAPI creates a SESAME SmartLock API client.
-func NewSesameAPI(accessToken string) *sesameAPI {
+// NewAPIClient creates a SESAME SmartLock API client.
+func NewAPIClient(accessToken string) *apiClient {
 	cli := NewClient(accessToken)
-	return &sesameAPI{cli: cli}
+	return &apiClient{cli: cli}
 }
 
 // GetList provides implementation of GET /sesames
 // https://docs.candyhouse.co/#get-sesame-list
-func (api *sesameAPI) GetList(ctx context.Context) ([]*Sesame, error) {
+func (api *apiClient) GetList(ctx context.Context) ([]*Sesame, error) {
 	var s []*Sesame
 	if err := api.cli.Get(ctx, "sesames", nil, &s); err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (api *sesameAPI) GetList(ctx context.Context) ([]*Sesame, error) {
 
 // GetStatus provides implementation of GET /sesame/{device_id}
 // https://docs.candyhouse.co/#get-sesame-status
-func (api *sesameAPI) GetStatus(ctx context.Context, deviceID string) (*SesameStatus, error) {
+func (api *apiClient) GetStatus(ctx context.Context, deviceID string) (*SesameStatus, error) {
 	var ss SesameStatus
 
 	if deviceID == "" {
@@ -83,7 +83,7 @@ func (api *sesameAPI) GetStatus(ctx context.Context, deviceID string) (*SesameSt
 
 // Control provides implementation of POST /sesame/{device_id}
 // https://docs.candyhouse.co/#control-sesame
-func (api *sesameAPI) Control(ctx context.Context, deviceID string, command string) (*Control, error) {
+func (api *apiClient) Control(ctx context.Context, deviceID string, command string) (*Control, error) {
 	var v Control
 	if deviceID == "" {
 		return nil, fmt.Errorf("Invalid deviceID: %s", deviceID)
@@ -100,7 +100,7 @@ func (api *sesameAPI) Control(ctx context.Context, deviceID string, command stri
 
 // GetExecutionResult provides implementation of GET /action-result?task_id={task_id}
 // https://docs.candyhouse.co/#query-execution-result
-func (api *sesameAPI) GetExecutionResult(ctx context.Context, taskID string) (*ExecutionResult, error) {
+func (api *apiClient) GetExecutionResult(ctx context.Context, taskID string) (*ExecutionResult, error) {
 	var v ExecutionResult
 	if taskID == "" {
 		return nil, fmt.Errorf("Invalid taskID: %s", taskID)

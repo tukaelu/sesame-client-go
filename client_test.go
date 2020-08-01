@@ -1,4 +1,4 @@
-package opensesame
+package sesame
 
 import (
 	"context"
@@ -24,7 +24,7 @@ func TestAuthorization(t *testing.T) {
 	}))
 	defer sv.Close()
 
-	api := NewSesameAPI(DummyAuthToken)
+	api := NewAPIClient(DummyAuthToken)
 	api.cli.BaseURL = sv.URL
 
 	ctx := context.Background()
